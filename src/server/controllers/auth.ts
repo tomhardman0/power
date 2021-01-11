@@ -5,14 +5,15 @@ import { COOKIE_NAMESPACE } from '../config/constants';
 import axios from 'axios';
 
 const {
-  strava: { clientId, clientSecret }
+  strava: { clientId, clientSecret },
+  baseUrl
 } = config;
 
 export const authRoute = async (req: Request, res: Response) => {
-  const { scope, code } = req.query;
-  if (!scope && !code) {
+  const { code } = req.query;
+  if (!code) {
     return res.redirect(
-      `https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=http://localhost:3123/auth&approval_prompt=auto&scope=activity:read_all`
+      `https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${baseUrl}/auth&approval_prompt=auto&scope=activity:read_all`
     );
   }
 

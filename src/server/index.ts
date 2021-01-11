@@ -12,7 +12,7 @@ app.get('/status', (req, res) => {
   res.sendStatus(200);
 });
 const server = http.createServer(app);
-server.listen(PORT, () => console.log(`POWER: ${PORT}`));
+server.listen(PORT, () => console.log(`POWR: ${PORT}`));
 app.use('/', controllerRoutes());
 
 export default app;

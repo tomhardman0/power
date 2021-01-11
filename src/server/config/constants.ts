@@ -1,1 +1,1 @@
-export const COOKIE_NAMESPACE = 'power_app_auth';
+export const COOKIE_NAMESPACE = 'pwer_app_auth';

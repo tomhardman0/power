@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
+import ReactDOMServer from 'react-dom/server';
 import axios from 'axios';
+
 import { COOKIE_NAMESPACE } from '../config/constants';
+import { App } from '../../app/App';
 
 export const mainRoute = async (req: Request, res: Response) => {
   const cookie = req.cookies[COOKIE_NAMESPACE];
@@ -17,13 +20,8 @@ export const mainRoute = async (req: Request, res: Response) => {
       }
     );
 
-    return res.send(authRes.data);
-  }
-
-  const { scope, code } = req.query;
-  if (!scope && !code) {
+    return res.send(ReactDOMServer.renderToString(App(authRes.data)));
+  } else {
     return res.redirect('/auth');
   }
-
-  return res.sendStatus(500);
 };

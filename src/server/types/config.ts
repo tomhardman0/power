@@ -3,4 +3,5 @@ export interface Config {
     clientId: string;
     clientSecret: string;
   };
+  baseUrl: string;
 }
