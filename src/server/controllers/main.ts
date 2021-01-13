@@ -1,27 +1,56 @@
 import { Request, Response } from 'express';
-import ReactDOMServer from 'react-dom/server';
 import axios from 'axios';
-
 import { COOKIE_NAMESPACE } from '../config/constants';
-import { App } from '../../app/App';
+import { renderApp } from '../utilities/html';
+import { AppState } from '../../types/state';
+import { config } from '../config';
+import { stravaClient } from '../clients/strava';
+
+const {
+  strava: { clientId, clientSecret },
+  baseUrl,
+  maps
+} = config;
 
 export const mainRoute = async (req: Request, res: Response) => {
   const cookie = req.cookies[COOKIE_NAMESPACE];
+  const state: AppState = {
+    maps,
+    authUrl: `https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${baseUrl}/auth&approval_prompt=auto&scope=activity:read_all`
+  };
 
   if (cookie) {
-    const { refresh_token, access_token, expires_at } = cookie;
+    let accessToken: string;
+    const { refresh_token, access_token, expires_at, user } = cookie;
+    const shouldRefresh = new Date().getTime() / 1000 >= expires_at;
 
-    const authRes = await axios.get(
-      `https://www.strava.com/api/v3/athlete/activities`,
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`
-        }
-      }
-    );
+    if (shouldRefresh) {
+      const refreshRes = await axios.post(
+        `https://www.strava.com/api/v3/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&refresh_token=${refresh_token}&grant_type=refresh_token`
+      );
+      const {
+        refresh_token: new_refresh_token,
+        access_token: new_access_token,
+        expires_at: new_expires_at
+      } = refreshRes.data;
 
-    return res.send(ReactDOMServer.renderToString(App(authRes.data)));
-  } else {
-    return res.redirect('/auth');
+      res.cookie(COOKIE_NAMESPACE, {
+        refresh_token: new_refresh_token,
+        access_token: new_access_token,
+        expires_at: new_expires_at,
+        user: user
+      });
+
+      accessToken = new_access_token;
+    } else {
+      accessToken = access_token;
+    }
+
+    const activities = await stravaClient.getActivities(accessToken);
+    state.user = user;
+    state.activities = activities;
   }
+
+  const appHtml = renderApp(state);
+  return res.send(appHtml);
 };

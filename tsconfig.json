@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "types": ["node"],
-    "lib": ["es2019"],
+    "lib": ["es2019", "dom"],
     "strict": true,
     "module": "commonjs",
     "esModuleInterop": true,
