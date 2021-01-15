@@ -24,6 +24,12 @@ export const theme = createMuiTheme({
       action: {
         alignSelf: 'center'
       }
+    },
+    MuiContainer: {
+      maxWidthLg: {
+        paddingLeft: '12px',
+        paddingRight: '12px'
+      }
     }
   }
 });

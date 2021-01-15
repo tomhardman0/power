@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
+import { CssBaseline } from '@material-ui/core';
 
 import { config } from '../config';
 import { theme } from '../../app/theme';
@@ -40,6 +41,7 @@ export const renderApp = (state: AppState) => {
   const html = ReactDOMServer.renderToString(
     sheets.collect(
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <AppComponent state={state} />
       </ThemeProvider>
     )

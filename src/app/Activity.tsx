@@ -15,17 +15,17 @@ import LinkIcon from '@material-ui/icons/Link';
 import MapIcon from '@material-ui/icons/Map';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import { red, blue } from '@material-ui/core/colors';
 import { mapStyles } from './mapStyles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      maxWidth: 360,
-      marginBottom: theme.spacing(2)
+      maxWidth: 390,
+      width: 390,
+      marginBottom: theme.spacing(1.5)
     },
     cardHeader: {
-      minHeight: '60px',
+      minHeight: '92px',
       alignSelf: 'center'
     },
     cardLarge: {

@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 import { AppComponent } from './App';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from './theme';
+import { CssBaseline } from '@material-ui/core';
 
 const state = window.__STATE__;
 
@@ -16,6 +17,7 @@ function Main() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <AppComponent state={state} />
     </ThemeProvider>
   );

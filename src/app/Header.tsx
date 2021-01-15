@@ -29,7 +29,8 @@ function HideOnScroll(props: Props) {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    marginBottom: theme.spacing(4)
   },
   title: {
     flexGrow: 1,
@@ -103,17 +104,6 @@ export const Header: React.FunctionComponent<HeaderProps> = ({
           </Tabs>
         </AppBar>
       </HideOnScroll>
-      <Toolbar />
-      <Tabs
-        value={rideType}
-        variant="fullWidth"
-        onChange={handleChange}
-        aria-label="Type of ride tabs"
-      >
-        <Tab label="All" />
-        <Tab label="Outdoor" />
-        <Tab label="Indoor" />
-      </Tabs>
     </div>
   );
 };
